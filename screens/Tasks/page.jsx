@@ -20,7 +20,7 @@ export default function Tasks({ navigation }) {
             source={require('../assets/calender.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Jira')} style={styles.logoContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('JiraFetch')} style={styles.logoContainer}>
           <Image
             style={styles.logo}
             source={require('../assets/jira.png')}

@@ -27,8 +27,8 @@ export class Task extends Realm.Object {
       priority: 'string',
       summary: 'string',
       type: 'string',
-      createdAt: 'string',
-      updatedAt: 'string',
+      createdAt: 'date',
+      updatedAt: 'date',
     },
   };
 }
