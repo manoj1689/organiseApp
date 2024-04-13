@@ -15,6 +15,7 @@ import CreateTask from './screens/Tasks/Personal/CreateTask/page';
 import JiraFetch from './screens/Tasks/Jira/JiraFetch/page';
 import JiraProjects from './screens/Tasks/Jira/JiraProjects/page';
 import JiraIssues from './screens/Tasks/Jira/JiraIssues/page';
+import ReadTask from './screens/Tasks/Personal/ReadTask/page';
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,11 @@ export default function App() {
             name="CreateTask"
             component={CreateTask}
             options={{title: 'Create Task Page', headerShown: true}}
+          />
+          <Stack.Screen
+            name="ReadTask"
+            component={ReadTask}
+            options={{title: 'Read Task Page', headerShown: true}}
           />
           <Stack.Screen
             name="JiraFetch"
