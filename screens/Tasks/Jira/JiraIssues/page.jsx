@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, Animated, PanResponder } from 'react-native';
+import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Button, Animated, PanResponder } from 'react-native';
 import { useRealm } from '@realm/react';
 import CardFormat from '../../../CardFormat/page';
+import Icons from 'react-native-vector-icons/Ionicons';
 
 const JiraIssues = ({ navigation, route }) => {
   const realm = useRealm();
@@ -9,11 +10,12 @@ const JiraIssues = ({ navigation, route }) => {
   const myTasks = realm.objects('Task').filtered(`title = "${projectName}"`); // Filter tasks by project name
 
   const [data, setData] = useState([...myTasks]);
-useEffect(()=>{
-  if(!data.length){
-    setData([...myTasks])
-  }
-},[data])
+  useEffect(() => {
+    if (!data.length) {
+      setData([...myTasks]);
+    }
+  }, [data]);
+  
   const swipe = useRef(new Animated.ValueXY()).current;
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
@@ -46,14 +48,44 @@ useEffect(()=>{
   }, [swipe, setData]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
+      <View  >
       {data.map((task, index) => {
         let isFirst = index === 0;
         let dragHandlers = isFirst ? panResponder.panHandlers : {}
         return <CardFormat key={task.taskID} data={task} isFirst={isFirst} swipe={swipe} {...dragHandlers} />
       }).reverse()}
-      <Button title='Back To Home' onPress={() => navigation.navigate('Home')} />
-    </ScrollView>
+
+      </View>
+     
+      
+      <View style={styles.bottomButtons}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => handleSelection(-1)}>
+          <Icons name="close-outline" size={35} color="#2F4F4F" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => navigation.navigate('Tasks')}>
+          <Icons name="add-outline" size={35} color="#2F4F4F" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => handleSelection(1)}>
+          <Icons name="heart-outline" size={35} color="#2F4F4F" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => navigation.navigate('Cards')}>
+          <Icons name="arrow-back-circle-outline" size={35} color="#2F4F4F" />
+        </TouchableOpacity>
+      </View>
+      
+      <View>
+
+      </View>
+    </View>
   );
 };
 
@@ -61,8 +93,24 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    backgroundColor: '#f8f9fa',
   },
+  bottomButtons: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  iconContainer: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#fff',
+    elevation: 5,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
 });
 
 export default JiraIssues;
